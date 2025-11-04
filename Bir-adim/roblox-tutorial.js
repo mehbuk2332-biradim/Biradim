@@ -44,20 +44,41 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 2000);
       }).catch(() => {
         // Fallback for older browsers
-        const textarea = document.createElement("textarea");
-        textarea.value = codeText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-        
-        copyButton.textContent = "✅ Kopyalandı!";
-        copyButton.style.background = "#28a745";
-        
-        setTimeout(() => {
-          copyButton.textContent = "📋 Kodu Kopyala";
-          copyButton.style.background = "#667eea";
-        }, 2000);
+        try {
+          const textarea = document.createElement("textarea");
+          textarea.value = codeText;
+          document.body.appendChild(textarea);
+          textarea.select();
+          const successful = document.execCommand("copy");
+          document.body.removeChild(textarea);
+          
+          if (successful) {
+            copyButton.textContent = "✅ Kopyalandı!";
+            copyButton.style.background = "#28a745";
+            
+            setTimeout(() => {
+              copyButton.textContent = "📋 Kodu Kopyala";
+              copyButton.style.background = "#667eea";
+            }, 2000);
+          } else {
+            copyButton.textContent = "❌ Kopyalama başarısız";
+            copyButton.style.background = "#dc3545";
+            
+            setTimeout(() => {
+              copyButton.textContent = "📋 Kodu Kopyala";
+              copyButton.style.background = "#667eea";
+            }, 2000);
+          }
+        } catch (err) {
+          console.error("Kopyalama hatası:", err);
+          copyButton.textContent = "❌ Kopyalama başarısız";
+          copyButton.style.background = "#dc3545";
+          
+          setTimeout(() => {
+            copyButton.textContent = "📋 Kodu Kopyala";
+            copyButton.style.background = "#667eea";
+          }, 2000);
+        }
       });
     });
     

@@ -252,9 +252,15 @@ tool.Unequipped:Connect(function()
         end
     end
     
-    -- Zamanlayıcıyı iptal et
+    -- Zamanlayıcıyı iptal et (güvenli kontrol ile)
     if comboState.resetCoroutine then
-        task.cancel(comboState.resetCoroutine)
+        local success, err = pcall(function()
+            task.cancel(comboState.resetCoroutine)
+        end)
+        if not success then
+            warn("Kombo sıfırlama coroutine iptal edilemedi:", err)
+        end
+        comboState.resetCoroutine = nil
     end
 end)
 
