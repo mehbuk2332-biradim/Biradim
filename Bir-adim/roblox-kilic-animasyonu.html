@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox Kılıç Animasyonu Dersi - Gelişim Etüt Merkezi</title>
+  <link rel="stylesheet" href="Untitled-4.css">
+  <link rel="stylesheet" href="roblox-tutorial.css">
+</head>
+<body>
+  <header>
+    <img src="img/logo.png" alt="Etüt Merkezi Logosu" onerror="this.style.display='none'">
+    <h1>Gelişim Etüt Merkezi</h1>
+    <nav>
+      <a href="Untitled-2.html">Anasayfa</a>
+      <a href="roblox-kilic-animasyonu.html" class="active">Roblox Dersleri</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>🎮 Roblox'ta Kombolu Kılıç Sallama Animasyonu</h2>
+      <p>Lua programlama ile profesyonel oyun mekaniği oluşturmayı öğrenin!</p>
+    </section>
+    
+    <section class="tutorial-intro">
+      <h3>Ders İçeriği</h3>
+      <p>Bu derste, Roblox Studio kullanarak kombolu bir kılıç savaş sistemi oluşturacaksınız. Oyuncular art arda tıklayarak farklı animasyonlar tetikleyebilecek!</p>
+      
+      <div class="features">
+        <div class="feature-box">
+          <h4>✨ Öğrenecekleriniz</h4>
+          <ul>
+            <li>Roblox Studio'da animasyon kullanımı</li>
+            <li>Lua programlama temelleri</li>
+            <li>Kombo sistemi mantığı</li>
+            <li>Mouse tıklama algılama</li>
+            <li>Cooldown (bekleme) sistemi</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="tutorial-step">
+      <h3>Adım 1: Kılıç Aracını (Tool) Hazırlama</h3>
+      <p>Öncelikle Roblox Studio'da bir kılıç nesnesi oluşturalım:</p>
+      <ol>
+        <li>Roblox Studio'yu açın</li>
+        <li>Workspace'e sağ tıklayın → Insert Object → Tool</li>
+        <li>Tool'u "ComboSword" olarak adlandırın</li>
+        <li>Tool içine Part ekleyin ve "Handle" olarak adlandırın (zorunlu!)</li>
+        <li>Handle'ı kılıç şeklinde boyutlandırın</li>
+      </ol>
+    </section>
+
+    <section class="tutorial-step">
+      <h3>Adım 2: Animasyonları Yükleme</h3>
+      <p>Kılıç sallama animasyonlarınızı hazırlayın veya Roblox'un ücretsiz animasyonlarını kullanın:</p>
+      <div class="code-block">
+        <pre><code>-- Animasyon ID'lerini buraya yazın
+local ANIMASYON_1 = "rbxassetid://YOUR_ANIM_ID_1"
+local ANIMASYON_2 = "rbxassetid://YOUR_ANIM_ID_2"
+local ANIMASYON_3 = "rbxassetid://YOUR_ANIM_ID_3"</code></pre>
+      </div>
+      <p class="tip">💡 <strong>İpucu:</strong> Roblox Animation Editor kullanarak kendi animasyonlarınızı oluşturabilir veya Toolbox'tan hazır animasyonları kullanabilirsiniz!</p>
+    </section>
+
+    <section class="tutorial-step">
+      <h3>Adım 3: Ana Script (LocalScript)</h3>
+      <p>Tool'un içine bir LocalScript ekleyin ve aşağıdaki kodu yazın:</p>
+      <div class="code-block">
+        <pre><code>-- ComboSword LocalScript
+local tool = script.Parent
+local handle = tool:WaitForChild("Handle")
+
+-- Oyuncu ve karakter referansları
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Animasyon ayarları
+local animasyonlar = {
+    "rbxassetid://89289879",  -- Slash animasyonu 1
+    "rbxassetid://186934658", -- Slash animasyonu 2
+    "rbxassetid://186934910"  -- Slash animasyonu 3 (finisher)
+}
+
+local yuklenenAnimasyonlar = {}
+local mevcutKombo = 0
+local animasyonOynuyor = false
+local cooldownSuresi = 0.5
+local komboResetSuresi = 1.5
+local sonVurusZamani = 0
+
+-- Animasyonları önceden yükle
+for i, animId in ipairs(animasyonlar) do
+    local animasyon = Instance.new("Animation")
+    animasyon.AnimationId = animId
+    yuklenenAnimasyonlar[i] = humanoid:LoadAnimation(animasyon)
+end
+
+-- Kombo sıfırlama fonksiyonu
+local function komboSifirla()
+    wait(komboResetSuresi)
+    if tick() - sonVurusZamani >= komboResetSuresi then
+        mevcutKombo = 0
+        print("Kombo sıfırlandı!")
+    end
+end
+
+-- Kılıç sallama fonksiyonu
+local function kilicSalla()
+    if animasyonOynuyor then
+        return -- Animasyon devam ediyorsa yeni vuruş yapma
+    end
+    
+    animasyonOynuyor = true
+    sonVurusZamani = tick()
+    
+    -- Komboyu ilerlet
+    mevcutKombo = mevcutKombo + 1
+    if mevcutKombo > #animasyonlar then
+        mevcutKombo = 1
+    end
+    
+    print("Kombo " .. mevcutKombo .. " oynatılıyor!")
+    
+    -- Animasyonu oynat
+    local animTrack = yuklenenAnimasyonlar[mevcutKombo]
+    animTrack:Play()
+    
+    -- Hasar verme (opsiyonel)
+    hasarVer()
+    
+    -- Animasyon bekleme
+    wait(animTrack.Length * 0.7) -- Animasyonun %70'i tamamlanınca yeni vuruşa izin ver
+    animasyonOynuyor = false
+    
+    -- Kombo reset timer'ı başlat
+    spawn(komboSifirla)
+end
+
+-- Hasar verme fonksiyonu
+function hasarVer()
+    local hasarMiktari = 10
+    local hasarMenzili = 5
+    
+    -- Kılıcın ucundan raycast yap
+    local origin = handle.Position
+    local direction = (handle.CFrame * CFrame.new(0, 0, -hasarMenzili)).Position - origin
+    
+    local raycastParams = RaycastParams.new()
+    raycastParams.FilterDescendantsInstances = {character}
+    raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+    
+    local rayResult = workspace:Raycast(origin, direction, raycastParams)
+    
+    if rayResult then
+        local hit = rayResult.Instance
+        local dusman = hit.Parent
+        if dusman:FindFirstChild("Humanoid") and dusman ~= character then
+            dusman.Humanoid:TakeDamage(hasarMiktari)
+            print("Hasar verildi: " .. hasarMiktari)
+        end
+    end
+end
+
+-- Mouse tıklama olayı
+tool.Activated:Connect(function()
+    kilicSalla()
+end)
+
+-- Tool kuşanıldığında
+tool.Equipped:Connect(function()
+    print("Kılıç kuşanıldı! Kombo sistemine hazır.")
+    mevcutKombo = 0
+end)
+
+-- Tool çıkarıldığında
+tool.Unequipped:Connect(function()
+    print("Kılıç çıkarıldı.")
+    mevcutKombo = 0
+    animasyonOynuyor = false
+    
+    -- Tüm animasyonları durdur
+    for _, animTrack in ipairs(yuklenenAnimasyonlar) do
+        animTrack:Stop()
+    end
+end)</code></pre>
+      </div>
+    </section>
+
+    <section class="tutorial-step">
+      <h3>Adım 4: Ses Efektleri Ekleme (Opsiyonel)</h3>
+      <p>Daha gerçekçi bir deneyim için ses efektleri ekleyelim:</p>
+      <div class="code-block">
+        <pre><code>-- Ses efektleri için Handle içine Sound objesi ekleyin
+local sesEfekti = handle:FindFirstChild("SwingSound")
+if not sesEfekti then
+    sesEfekti = Instance.new("Sound")
+    sesEfekti.Name = "SwingSound"
+    sesEfekti.SoundId = "rbxassetid://12222030" -- Kılıç sallama sesi
+    sesEfekti.Volume = 0.5
+    sesEfekti.Parent = handle
+end
+
+-- kilicSalla fonksiyonu içinde, animasyon oynatmadan önce:
+if sesEfekti then
+    sesEfekti:Play()
+end</code></pre>
+      </div>
+    </section>
+
+    <section class="tutorial-step">
+      <h3>Adım 5: Test ve İyileştirmeler</h3>
+      <div class="test-checklist">
+        <h4>✅ Test Kontrol Listesi:</h4>
+        <ul>
+          <li>Kılıcı envantere ekleyin ve kuşanın</li>
+          <li>Sol fare tuşuyla tıklayarak animasyonları test edin</li>
+          <li>Kombo sisteminin 1-2-3 şeklinde çalıştığını doğrulayın</li>
+          <li>Bekleme süresinden sonra kombonun sıfırlandığını kontrol edin</li>
+          <li>Hasar verme mekanizmasını test edin (başka bir karakter ekleyin)</li>
+        </ul>
+      </div>
+      
+      <div class="improvements">
+        <h4>🚀 İyileştirme Önerileri:</h4>
+        <ul>
+          <li><strong>Parçacık Efektleri:</strong> Handle'a ParticleEmitter ekleyerek kılıç izleri oluşturun</li>
+          <li><strong>Kamera Sallanması:</strong> Vuruş anında kamera efekti ekleyin</li>
+          <li><strong>Kombo Göstergesi:</strong> ScreenGui ile ekranda kombo sayacı gösterin</li>
+          <li><strong>Kritik Vuruş:</strong> Son kombo vuruşunda 2x hasar verin</li>
+          <li><strong>Animasyon Çeşitlendirme:</strong> Daha fazla animasyon ekleyerek kombonuzu genişletin</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tutorial-step">
+      <h3>📚 Ek Kaynaklar ve İpuçları</h3>
+      <div class="resources">
+        <h4>Faydalı Roblox API'ları:</h4>
+        <ul>
+          <li><code>Humanoid:LoadAnimation()</code> - Animasyon yükleme</li>
+          <li><code>Tool.Activated</code> - Tıklama algılama</li>
+          <li><code>workspace:Raycast()</code> - Çarpışma tespiti</li>
+          <li><code>tick()</code> - Zaman ölçümü</li>
+          <li><code>spawn()</code> - Asenkron fonksiyon çalıştırma</li>
+        </ul>
+        
+        <h4>Öğrenme Kaynakları:</h4>
+        <ul>
+          <li>Roblox Developer Hub - <a href="https://create.roblox.com/docs" target="_blank">create.roblox.com/docs</a></li>
+          <li>Roblox Animation Editor Tutorial</li>
+          <li>Lua Programlama Temelleri</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="conclusion">
+      <h3>🎉 Tebrikler!</h3>
+      <p>Artık kendi kombolu kılıç sisteminizi oluşturdunuz! Bu temeli kullanarak:</p>
+      <ul>
+        <li>Farklı silah türleri (balta, mızrak, sihirli asa) ekleyebilirsiniz</li>
+        <li>Daha karmaşık kombo zincirleri oluşturabilirsiniz</li>
+        <li>Özel yetenekler ve beceriler ekleyebilirsiniz</li>
+        <li>PvP (Oyuncu vs Oyuncu) savaş sistemleri geliştirebilirsiniz</li>
+      </ul>
+      <p class="cta">Sorularınız için bize ulaşabilir veya kendi projelerinizi geliştirebilirsiniz. İyi oyunlar! 🎮</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Gelişim Etüt Merkezi - Roblox Oyun Geliştirme Dersleri</p>
+    <p>Bu içerik eğitim amaçlıdır.</p>
+  </footer>
+
+  <script src="Untitled-3.js"></script>
+  <script src="roblox-tutorial.js"></script>
+</body>
+</html>

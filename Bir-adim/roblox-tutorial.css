@@ -1,0 +1,348 @@
+/* Roblox Tutorial Specific Styles */
+
+.hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 50px 20px;
+  text-align: center;
+  color: white;
+  border-radius: 0;
+}
+
+.hero h2 {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.tutorial-intro {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.tutorial-intro h3 {
+  color: #667eea;
+  font-size: 2em;
+  margin-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.feature-box {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 8px;
+  border-left: 5px solid #667eea;
+  max-width: 600px;
+}
+
+.feature-box h4 {
+  color: #667eea;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+.feature-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.feature-box ul li {
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+}
+
+.feature-box ul li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.tutorial-step {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tutorial-step h3 {
+  color: #764ba2;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tutorial-step p {
+  line-height: 1.8;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.tutorial-step ol {
+  margin-left: 20px;
+  line-height: 2;
+}
+
+.tutorial-step ol li {
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.code-block {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  overflow-x: auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.code-block pre {
+  margin: 0;
+  color: #d4d4d4;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.code-block code {
+  color: #d4d4d4;
+}
+
+/* Syntax highlighting colors */
+.code-block pre code {
+  display: block;
+  white-space: pre;
+}
+
+.tip {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.tip strong {
+  color: #856404;
+}
+
+.test-checklist {
+  background: #d4edda;
+  border-left: 4px solid #28a745;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.test-checklist h4 {
+  color: #155724;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+.test-checklist ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.test-checklist ul li {
+  padding: 8px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #155724;
+}
+
+.test-checklist ul li:before {
+  content: "✓";
+  position: absolute;
+  left: 5px;
+  color: #28a745;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.improvements {
+  background: #d1ecf1;
+  border-left: 4px solid #17a2b8;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.improvements h4 {
+  color: #0c5460;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+.improvements ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.improvements ul li {
+  padding: 8px 0;
+  color: #0c5460;
+  margin-bottom: 10px;
+}
+
+.improvements ul li strong {
+  color: #17a2b8;
+}
+
+.resources {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.resources h4 {
+  color: #667eea;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+.resources h4:first-child {
+  margin-top: 0;
+}
+
+.resources ul {
+  margin-left: 20px;
+}
+
+.resources ul li {
+  padding: 5px 0;
+  color: #555;
+}
+
+.resources code {
+  background: #e9ecef;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #e83e8c;
+  font-size: 0.9em;
+}
+
+.resources a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.resources a:hover {
+  text-decoration: underline;
+}
+
+.conclusion {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.conclusion h3 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.conclusion p {
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.conclusion ul {
+  text-align: left;
+  max-width: 600px;
+  margin: 20px auto;
+  list-style: none;
+  padding-left: 0;
+}
+
+.conclusion ul li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+}
+
+.conclusion ul li:before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  color: #ffd700;
+  font-size: 1.2em;
+}
+
+.cta {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+}
+
+nav a.active {
+  background: rgba(255,255,255,0.2);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 1.8em;
+  }
+  
+  .tutorial-step,
+  .tutorial-intro,
+  .conclusion {
+    padding: 20px;
+    margin: 20px 10px;
+  }
+  
+  .code-block {
+    padding: 15px;
+    font-size: 0.85em;
+  }
+  
+  .code-block pre {
+    font-size: 0.8em;
+  }
+}
+
+footer {
+  background: #34495e;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+footer p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
